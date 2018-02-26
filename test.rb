@@ -72,19 +72,28 @@ turn.puts_last_roll
 turn.play(:keep => [3], :puts => true)
 
 # Should have 100 points after first `srand 1` keep
-turn.score == 100 ? good : bad
+# turn.score == 100 ? good : bad
 
 turn.play(:keep => [1, 2], :puts => true)
 
 # Should have 300 points after second `srand 1` keep
-turn.score == 300 ? good : bad
+# turn.score == 300 ? good : bad
 
 turn.play(:keep => [1], :puts => true)
 
 # Should have 350 points after third `srand 1` keep
-turn.score == 350 ? good : bad
+# turn.score == 350 ? good : bad
 
 turn.play(:keep => [1], :puts => true)
 
 # Fourth `srand 1` keep results in a farkle.
-turn.score == 0 ? good : bad
+# turn.score == 0 ? good : bad
+puts; puts;
+
+srand 2
+turn = Turn.new
+turn.puts_last_roll
+
+turn.play(:keep => [0], :puts => true)
+turn.play(:keep => [0], :puts => true)
+turn.play(:keep => [1, 2, 3], :pass => true, :puts => true)
