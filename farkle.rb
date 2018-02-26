@@ -4,11 +4,14 @@ class System
   end
 
   def score(roll, keeps)
-    values = keeps.map{|n| roll[n]}
+    values = keeps.map{|n| roll[n].nil? ? raise( "Tried to draft a die we didn't have" ) : roll[n] }
+    # puts values
 
     total_score = 0
     accumulator = Hash[1,0,2,0,3,0,4,0,5,0,6,0]
+    # puts accumulator
     values.each do |d|
+      # puts d
       accumulator[d] += 1
     end
 
