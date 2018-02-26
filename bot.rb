@@ -10,15 +10,7 @@ class FarkleBot
   end
 
   def act(roll)
-    # This is what needs to be overridden in subclass
-    keepers = [roll.index(5)] if roll.index(5)
-    keepers = [roll.index(1)] if roll.index(1)
-    # if keepers is still nil... wtf we rolled trips
-    triple_value = roll.group_by(&:itself).select { |k, v| v.size >= 3 }.keys.first
-
-    keepers = roll.each_index.select{|i| roll[i] == triple_value}[0..2] unless triple_value.nil?
-
-    {:keep => keepers, :pass => true, :puts => true}
+    raise("Can't run abstract base-class bot! Subclass and override `act` method.")
   end
 
   def run!
