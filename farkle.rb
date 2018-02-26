@@ -88,10 +88,10 @@ class Turn
 
     @keeps << actions[:keep]
     @points << ::System.score(last_roll, actions[:keep])
-    puts "Keeping: #{actions[:keep]} for #{@points[-1]} points." if actions[:puts]
+    puts "Keeping: #{actions[:keep].map{|i| "\##{i + 1}" }.join(", ")} for #{@points[-1]} points." if actions[:puts]
 
     if(actions[:pass])
-      puts "Ending turn..." if actions[:puts]
+      puts "Ending turn... with #{score} points." if actions[:puts]
       @complete = true
     else
       puts "Rolling again..." if actions[:puts]
