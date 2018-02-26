@@ -104,6 +104,10 @@ class Turn
     end
   end
 
+  def completed
+    @complete
+  end
+
   def rolls
     @rolls
   end
