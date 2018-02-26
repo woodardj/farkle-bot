@@ -56,3 +56,4 @@ end
 turn = Turn.new
 
 puts turn.rolls
+puts turn.rolls.length
