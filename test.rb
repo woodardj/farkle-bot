@@ -51,9 +51,20 @@ begin # Test `system`'s basic rolling and scoring
 
   score = System.score([5, 5, 1, 4, 4, 3], [0, 1, 2])
   score == 200 ? good : bad
+
+  score = System.score([1, 2], [0])
+  score == 100 ? good : bad
+
+  System.farkle?( [2] ) == true ? good : bad
+  System.farkle?( [2, 2] ) == true ? good : bad
+  System.farkle?( [2, 2, 2] ) == false ? good : bad
+  System.farkle?( [1, 2] ) == false ? good : bad
+  System.farkle?( [1, 2, 3] ) == false ? good : bad
+  System.farkle?( [2, 3, 4, 5, 6]) == false ? good : bad
+  System.farkle?( [1, 2, 2, 3, 3, 4]) == false ? good : bad
+  System.farkle?( [2, 2, 3, 3, 4, 4]) == true ? good : bad
 end
 
 turn = Turn.new
 
-puts turn.rolls
-puts turn.rolls.length
+puts turn.puts_last_roll

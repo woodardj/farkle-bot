@@ -45,15 +45,73 @@ class System
     end
     total_score
   end
+
+  def self.all_possible_keep_arrays (dice_count = 6)
+    # The only bit of ruby fuckery, I promise.
+    (1..(2**dice_count-1)).map do |combo_number|
+      bitstring = "%0#{dice_count}b" % combo_number
+      bit_ary = bitstring.chars.map &:to_i
+      keeps_array = bit_ary.each_with_index.map{ |e, i| e == 0 ? nil : i }.compact
+    end
+  end
+
+  def self.farkle? roll
+    dice_count = roll.length
+    combinations = (2**dice_count-1)
+
+    self.all_possible_keep_arrays.each do |keep|
+      begin
+        return false if self.score(roll, keep) > 0
+      rescue
+        # Swallow legal-drafting exceptions during farkle check
+      end
+    end
+
+    true # No possible combination of keeping yielded a score greater than zero
+  end
 end
 
 class Turn
   def initialize
     @rolls = []
     @rolls << ::System.roll
+
+    @points = []
+
+    @complete = farkled?
+    puts "FARKLE! Turn over." if @complete
+  end
+
+  def play(actions = {:keep => [], :pass => false})
+    raise("Cannot play on a completed Turn") if @complete
+    raise("Must keep at least one die") if action[:keep].length == 0
+
+    points << ::System.score(rolls[-1], keep)
+
+    if(actions[:pass])
+      @complete = true
+    else
+      @rolls << ::System.roll
+      if farkled?
+        @complete = true
+        puts "FARKLE! Turn over."
+      end
+    end
   end
 
   def rolls
     @rolls
+  end
+
+  def puts_last_roll
+    puts "Rolled: #{@rolls[-1]}"
+  end
+
+  def score
+    points.map &:sum
+  end
+
+  def farkled?
+    System.farkle? @rolls[-1]
   end
 end
