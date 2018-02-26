@@ -75,26 +75,31 @@ class Turn
   def initialize
     @rolls = []
     @rolls << ::System.roll
-
+    @keeps = []
     @points = []
 
     @complete = farkled?
     puts "FARKLE! Turn over." if @complete
   end
 
-  def play(actions = {:keep => [], :pass => false})
+  def play(actions = {:keep => [], :pass => false, :puts => false})
     raise("Cannot play on a completed Turn") if @complete
-    raise("Must keep at least one die") if action[:keep].length == 0
+    raise("Must keep at least one die") if actions[:keep].length == 0
 
-    points << ::System.score(rolls[-1], keep)
+    @keeps << actions[:keep]
+    @points << ::System.score(last_roll, actions[:keep])
+    puts "Keeping: #{actions[:keep]} for #{@points[-1]} points." if actions[:puts]
 
     if(actions[:pass])
+      puts "Ending turn..." if actions[:puts]
       @complete = true
     else
-      @rolls << ::System.roll
+      puts "Rolling again..." if actions[:puts]
+      @rolls << ::System.roll(last_roll.length - actions[:keep].length)
+      puts_last_roll if actions[:puts]
       if farkled?
         @complete = true
-        puts "FARKLE! Turn over."
+        puts "FARKLE! Turn over." if actions[:puts]
       end
     end
   end
@@ -103,15 +108,23 @@ class Turn
     @rolls
   end
 
+  def last_roll
+    @rolls[-1]
+  end
+
   def puts_last_roll
-    puts "Rolled: #{@rolls[-1]}"
+    puts "Rolled: #{last_roll}"
   end
 
   def score
-    points.map &:sum
+    farkled? ? 0 : @points.reduce(0, &:+)
+  end
+
+  def puts_score
+    puts "Current score: #{score}"
   end
 
   def farkled?
-    System.farkle? @rolls[-1]
+    System.farkle? last_roll
   end
 end
