@@ -1,9 +1,9 @@
 class System
-  def roll(dice = 6)
+  def self.roll(dice = 6)
     Array.new(dice).map{|n| rand(1..6)}
   end
 
-  def score(roll, keeps)
+  def self.score(roll, keeps)
     values = keeps.map{|n| roll[n].nil? ? raise( "Tried to draft a die we didn't have" ) : roll[n] }
     # puts values
 
@@ -44,5 +44,16 @@ class System
       end
     end
     total_score
+  end
+end
+
+class Turn
+  def initialize
+    @rolls = []
+    @rolls << ::System.roll
+  end
+
+  def rolls
+    @rolls
   end
 end
