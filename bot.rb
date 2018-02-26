@@ -9,7 +9,7 @@ class FarkleBot
     @turns.map(&:score).reduce(0,:+)
   end
 
-  def act(roll)
+  def act(turn)
     raise("Can't run abstract base-class bot! Subclass and override `act` method.")
   end
 
@@ -19,7 +19,7 @@ class FarkleBot
       puts "#{this_turn.last_roll}"
 
       until this_turn.completed
-        action = act(this_turn.last_roll)
+        action = act(this_turn)
         puts action
         this_turn.play(action)
       end
@@ -27,9 +27,6 @@ class FarkleBot
       @turns << this_turn
       puts "Total score: #{game_points}"
     end
-    puts "Hit #{game_points} in #{@turns.length} turns."
+    puts "#{self.class} hit #{game_points} in #{@turns.length} turns."
   end
 end
-
-bot = FarkleBot.new
-bot.run!
