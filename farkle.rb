@@ -95,7 +95,11 @@ class Turn
       @complete = true
     else
       puts "Rolling again..." if actions[:puts]
-      @rolls << ::System.roll(last_roll.length - actions[:keep].length)
+      dice_remaining = last_roll.length - actions[:keep].length
+      if dice_remaining == 0 # HOT DICE -- we managed to score all six. By not passing, we chose to roll all six again.
+        dice_remaining = 6
+      end
+      @rolls << ::System.roll(dice_remaining)
       puts_last_roll if actions[:puts]
       if farkled?
         @complete = true
