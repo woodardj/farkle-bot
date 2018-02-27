@@ -58,6 +58,10 @@ begin # Test `system`'s basic rolling and scoring
   score = System.score([5, 5, 5], [0, 1, 2])
   score == 500 ? good : bad
 
+  # Attempting to double-keep should not double score
+  score = System.score([1, 2, 3], [0, 0])
+  score == 100 ? good : bad
+
   System.farkle?( [2] ) == true ? good : bad
   System.farkle?( [2, 2] ) == true ? good : bad
   System.farkle?( [2, 2, 2] ) == false ? good : bad

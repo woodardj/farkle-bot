@@ -4,6 +4,7 @@ class System
   end
 
   def self.score(roll, keeps)
+    keeps.uniq!
     values = keeps.map{|n| roll[n].nil? ? raise( "Tried to draft a die we didn't have" ) : roll[n] }
     # puts values
 
