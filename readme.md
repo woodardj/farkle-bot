@@ -31,6 +31,11 @@ $ ruby bravo.rb
 ## Data
 Next steps on this are to build a 'runner' that will iteratively re-run each bot a certain number of times, in order to determine the average and variance to compare each strategy visually.
 
+## Writing your own Bot
+Create a new file in the `/bots` directory and subclass `FarkleBot` from the 'bot.rb' file, and implement the `act` method. It should take a `Turn` object (from the `farkle.rb` file) as a parameter, and return a hash with an array of indices to draft from the "roll" array and whether or not to continue rolling or end the turn.
+
+I'd be happy to accept PRs for Bots that used interesting strategies or won particularly fast!
+
 ## "Test suite"
 I wanted to make a point here that code can be written modularly and testable, even without fancy test harnesses etc. as a project gets started.
 
