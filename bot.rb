@@ -16,6 +16,8 @@ class FarkleBot
   def run!
     while game_points < 10_000
       this_turn = Turn.new
+      puts
+      puts "*** Turn number: #{@turns.length + 1} **"
       puts "Rolled: #{this_turn.last_roll}"
 
       until this_turn.completed
