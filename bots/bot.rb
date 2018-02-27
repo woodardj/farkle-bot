@@ -1,4 +1,4 @@
-require "./farkle.rb"
+require "../farkle.rb"
 
 class FarkleBot
   def initialize
