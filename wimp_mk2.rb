@@ -1,6 +1,6 @@
 require "./bot.rb"
 
-class WimpyBot < FarkleBot
+class WimpyMk2Bot < FarkleBot
   # Wimp combined with some additional smarts of the McKinleyBot -- (drafts *all* scored dice, rather than *any*)
   def act(turn)
     roll = turn.last_roll
@@ -9,10 +9,10 @@ class WimpyBot < FarkleBot
     # If we have a five we'll keep it
     keepers += [roll.index(5)] if roll.index(5)
 
-    # Just kidding, we'll keep a one instead if we got one of those
+    # We'll also keep a one if we got one of those
     keepers += [roll.index(1)] if roll.index(1)
 
-    # BELAY THAT ORDER... IF WE GOT A TRIPLE, WE WANT THAT.
+    # And we'll take that triple. (but we're not smart enough to see two)
     triple_value = roll.group_by(&:itself).select { |k, v| v.size >= 3 }.keys.first
     keepers += roll.each_index.select{|i| roll[i] == triple_value}[0..2] unless triple_value.nil?
 
@@ -21,5 +21,5 @@ class WimpyBot < FarkleBot
   end
 end
 
-bot = WimpyBot.new
+bot = WimpyMk2Bot.new
 bot.run!
