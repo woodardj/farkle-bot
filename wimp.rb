@@ -1,10 +1,6 @@
 require "./bot.rb"
 
 class WimpyBot < FarkleBot
-  def display_name
-    "WimpyBot"
-  end
-
   def act(turn)
     roll = turn.last_roll
 
